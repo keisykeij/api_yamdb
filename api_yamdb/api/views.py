@@ -1,8 +1,8 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, ListModelMixin
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-
-from .serializers import TitleSerializer
-from reviews.models import Title
+from .serializers import CategorySerializer, TitleSerializer
+from reviews.models import Category, Title
 
 
 class TitleViewSet(ModelViewSet):
@@ -11,3 +11,8 @@ class TitleViewSet(ModelViewSet):
     serializer_class = TitleSerializer
 
 
+class CategoryViewSet(CreateModelMixin, DestroyModelMixin,
+                      ListModelMixin, GenericViewSet):
+    """ViewSet для работы с категиориями."""
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
