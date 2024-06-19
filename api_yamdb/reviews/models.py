@@ -6,7 +6,7 @@ from users.models import CustomUser
 
 class Review(models.Model):
     title = models.ForeignKey(  # TODO нужно проверить
-        Title, verbose_name='Название произведения', 
+        Title, verbose_name='Название произведения',
         on_delete=models.CASCADE, related_name='reviews')
     text = models.TextField('Текст отзыва')
     author = models.ForeignKey(
@@ -20,3 +20,9 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['title', 'author'],
+                name='unique_title_author'
+            )
+        ]
