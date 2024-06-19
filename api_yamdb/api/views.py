@@ -1,14 +1,16 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
+from rest_framework.pagination import PageNumberPagination
 
 from reviews.models import Title
-from .permissions import IsAuthorOrReadOnly
-from .serializers import (ReviewSerializer, )
+from .permissions import IsAuthorOrStuffOrReadOnly
+from .serializers import ReviewSerializer
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-    permission_classes = (IsAuthorOrReadOnly,)
+    permission_classes = (IsAuthorOrStuffOrReadOnly,)
+    pagination_class = PageNumberPagination
 
     def get_title(self):
         return get_object_or_404(Title, pk=self.kwargs.get('title_id'))
