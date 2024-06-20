@@ -4,10 +4,10 @@ from rest_framework.viewsets import ModelViewSet
 
 from .mixins import BaseMixinSet
 # from .permissions import IsAuthorOrStuffOrReadOnly
-from .serializers import (
-    CategorySerializer, CommentSerializer, GenreSerializer, ReviewSerializer, TitleSerializer
-)
-from reviews.models import Category, Genre, Title, Review
+from .serializers import (CategorySerializer, CommentSerializer,
+                          GenreSerializer, ReviewSerializer, TitleSerializer)
+
+from reviews.models import Category, Genre, Review, Title
 
 
 class TitleViewSet(ModelViewSet):
@@ -52,7 +52,7 @@ class ReviewViewSet(ModelViewSet):
         )
 
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
     # permission_classes = ()
     pagination_class = PageNumberPagination
