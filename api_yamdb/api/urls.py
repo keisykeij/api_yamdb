@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from .views import ReviewViewSet, CommentViewSet
+from .views import CommentViewSet, ReviewViewSet
 
 
 API_V1 = 'v1'
