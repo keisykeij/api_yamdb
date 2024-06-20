@@ -15,7 +15,7 @@ class Review(models.Model):
     score = models.IntegerField('Оценка', validators=[
                                 MinValueValidator(1), MaxValueValidator(10),],)
     pub_date = models.DateTimeField('Дата публикации отзыва',
-                                    auto_now_add=True)
+                                    auto_now_add=True, db_index=True)
 
     class Meta:
         verbose_name = 'Отзыв'
@@ -26,3 +26,6 @@ class Review(models.Model):
                 name='unique_title_author'
             )
         ]
+
+    def __str__(self):
+        return self.text
