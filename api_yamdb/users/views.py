@@ -1,14 +1,14 @@
-from django.shortcuts import get_object_or_404
-from django.http import Http404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
-from rest_framework.exceptions import NotFound
-from rest_framework.views import APIView
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.exceptions import NotFound
+from rest_framework.permissions import AllowAny
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import AccessToken
-from rest_framework.permissions import AllowAny
 
 from .serializers import UserRegisterSerializer, UserTokenSerializer
 
