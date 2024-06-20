@@ -53,7 +53,7 @@ class UserTokenView(APIView):
                 User, username=request.data.get('username', None)
             )
             serializer = UserTokenSerializer(
-                user, data=request.data, context={'request': request}
+                user, data=request.data
             )
             if serializer.is_valid():
                 token = AccessToken.for_user(user=user)
