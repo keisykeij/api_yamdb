@@ -10,7 +10,8 @@ API_V1 = 'v1'
 
 app_name = 'api'
 
-router = DefaultRouter()
+router_v1 = DefaultRouter()
+
 router_v1.register(r'titles', TitleViewSet, basename='titles')
 router_v1.register(r'category', CategoryViewSet, basename='categories')
 router_v1.register(r'genre', GenreViewSet, basename='genres')
@@ -21,3 +22,4 @@ router_v1.register(
 
 urlpatterns = [
     path(f'{API_V1}/', include(router_v1.urls)),
+]

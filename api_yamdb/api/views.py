@@ -3,7 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 
 from .mixins import BaseMixinSet
-#from .permissions import IsAuthorOrStuffOrReadOnly
+# from .permissions import IsAuthorOrStuffOrReadOnly
 from .serializers import (
     CategorySerializer, GenreSerializer, ReviewSerializer, TitleSerializer
 )
@@ -14,15 +14,15 @@ from reviews.models import Category, Genre, Title
 class TitleViewSet(ModelViewSet):
     """ViewSet для работы с произведениями."""
     serializer_class = TitleSerializer
-    
+
     def get_queryset(self):
         return Title.objects.all()
-    
+
 
 class CategoryViewSet(BaseMixinSet):
     """ViewSet для работы с категиориями."""
     serializer_class = CategorySerializer
-    
+
     def get_queryset(self):
         return Category.objects.all()
 
@@ -35,9 +35,9 @@ class GenreViewSet(BaseMixinSet):
         return Genre.objects.all()
 
 
-class ReviewViewSet(viewsets.ModelViewSet):
+class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
-    #permission_classes = (IsAuthorOrStuffOrReadOnly,)
+    # permission_classes = (IsAuthorOrStuffOrReadOnly,)
     pagination_class = PageNumberPagination
 
     def get_title(self):
