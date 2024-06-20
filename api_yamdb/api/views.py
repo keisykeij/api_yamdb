@@ -5,10 +5,9 @@ from rest_framework.viewsets import ModelViewSet
 from .mixins import BaseMixinSet
 # from .permissions import IsAuthorOrStuffOrReadOnly
 from .serializers import (
-    CategorySerializer, GenreSerializer, ReviewSerializer, TitleSerializer
+    CategorySerializer, CommentSerializer, GenreSerializer, ReviewSerializer, TitleSerializer
 )
-
-from reviews.models import Category, Genre, Title
+from reviews.models import Category, Genre, Title, Review
 
 
 class TitleViewSet(ModelViewSet):
@@ -50,4 +49,22 @@ class ReviewViewSet(ModelViewSet):
         serializer.save(
             author=self.request.user,
             title=self.get_title()
+        )
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
+    # permission_classes = ()
+    pagination_class = PageNumberPagination
+
+    def get_review(self):
+        return get_object_or_404(Review, pk=self.kwargs.get('review_id'))
+
+    def get_queryset(self):
+        return self.get_review().comments.all()
+
+    def perform_create(self, serializer):
+        serializer.save(
+            author=self.request.user,
+            review=self.get_review()
         )
