@@ -11,7 +11,7 @@ class ROLES(Enum):
 
 
 class CustomUser(AbstractUser):
-    email = models.EmailField('email', unique=True)
+    email = models.EmailField('email', max_length=254, unique=True)
     bio = models.TextField(blank=True, null=True)
     role = models.CharField(
         max_length=9,

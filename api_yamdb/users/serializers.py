@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
@@ -8,8 +8,12 @@ User = get_user_model()
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(required=True)
-    email = serializers.EmailField(required=True)
+    email = serializers.EmailField(max_length=254, required=True)
+    username = serializers.CharField(
+        max_length=150,
+        required=True,
+        validators=(UnicodeUsernameValidator(),)
+    )
 
     class Meta:
         model = User
@@ -43,6 +47,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
         return attrs
 
+    def save(self, **kwargs):
+        self.instance, status = User.objects.get_or_create(
+            **self.validated_data
+        )
+        return self.instance
+
 
 class UserTokenSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=True)
@@ -51,15 +61,3 @@ class UserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'confirmation_code')
-
-    def validate_confirmation_code(self, value):
-        status = default_token_generator.check_token(
-            user=self.instance, token=value
-        )
-
-        if not status:
-            raise serializers.ValidationError(
-                'Неверный код подтверждения'
-            )
-
-        return value

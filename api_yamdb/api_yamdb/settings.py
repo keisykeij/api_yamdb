@@ -117,3 +117,5 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'BLACKLIST_AFTER_ROTATION': True
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
