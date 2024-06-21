@@ -40,12 +40,6 @@ class UserRegisterView(APIView):
             return Response(
                 serializer.data, status=status.HTTP_200_OK
             )
-        # TODO: отправка сообщения пользователю с кодом подтверждения
-            # send_mail()
-            # return Response(
-            #     {'confirmation_code': confirmation_code},
-            #     status=status.HTTP_200_OK
-            # )
 
         return Response(
             serializer.errors, status=status.HTTP_400_BAD_REQUEST
