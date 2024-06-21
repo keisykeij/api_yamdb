@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import AccessToken
 
 from .serializers import UserRegisterSerializer, UserTokenSerializer
+from .utils import send_confirmation_code
 
 User = get_user_model()
 
@@ -33,6 +34,8 @@ class UserRegisterView(APIView):
             confirmation_code = default_token_generator.make_token(
                 user=current_user
             )
+
+            send_confirmation_code(confirmation_code, current_user.email)
 
             return Response(
                 serializer.data, status=status.HTTP_200_OK
