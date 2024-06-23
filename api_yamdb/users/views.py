@@ -80,8 +80,10 @@ class UserTokenView(APIView):
 
 
 class UserViewSet(ModelViewSet):
-    """ViewSet для администрирования пользователями, а также для """
-    """получения и редактирования профиля пользователем."""
+    """
+    ViewSet для администрирования пользователями, а также для 
+    получения и редактирования профиля пользователем.
+    """
 
     serializer_class = AdminUserSerializer
     lookup_field = 'username'

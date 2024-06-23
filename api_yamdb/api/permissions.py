@@ -7,7 +7,7 @@ from users.models import ROLES
 class IsAppAdmin(permissions.BasePermission):
     """Доступ только пользователя с ролью "admin"."""
     def has_permission(self, request: Request, view):
-        return bool(
+        return (
             request.user.is_authenticated
             and request.user.role == ROLES.admin.value
         )
