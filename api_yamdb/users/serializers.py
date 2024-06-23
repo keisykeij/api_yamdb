@@ -8,6 +8,8 @@ User = get_user_model()
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
+    """Сериализатор для регистрации пользователей."""
+
     email = serializers.EmailField(max_length=254, required=True)
     username = serializers.CharField(
         max_length=150,
@@ -55,9 +57,36 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 
 class UserTokenSerializer(serializers.ModelSerializer):
+    """Сериализатор для выдачи токена зарегистрированному пользователю."""
+
     username = serializers.CharField(required=True)
     confirmation_code = serializers.CharField(required=True)
 
     class Meta:
         model = User
         fields = ('username', 'confirmation_code')
+
+
+class AdminUserSerializer(serializers.ModelSerializer):
+    """Сериализатор для администрирования пользователей администратором."""
+
+    class Meta:
+        model = User
+        fields = (
+            'username', 'email', 'first_name', 'last_name', 'bio', 'role'
+        )
+
+
+class UserSerializer(AdminUserSerializer):
+    """Сериализатор для получения и частичного обновления профиля."""
+    role = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'username', 'email', 'first_name', 'last_name', 'bio', 'role'
+        )
+        extra_kwargs = {
+            'username': {'required': False},
+            'email': {'required': False}
+        }
