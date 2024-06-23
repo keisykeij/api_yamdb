@@ -5,6 +5,7 @@ from users.models import ROLES
 
 
 class IsAppAdmin(permissions.BasePermission):
+    """Доступ только пользователя с ролью "admin"."""
     def has_permission(self, request: Request, view):
         return bool(
             request.user.is_authenticated
