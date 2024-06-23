@@ -3,12 +3,17 @@ from django.shortcuts import get_object_or_404
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import permissions
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .mixins import BaseMixinSet
 from .permissions import IsAdminOrReadOnly
 # from .permissions import IsAuthorOrStuffOrReadOnly
-from .serializers import (CategorySerializer, CommentSerializer,
-                          GenreSerializer, ReviewSerializer, TitleSerializer)
+from .serializers import (
+    CategorySerializer, CommentSerializer, GenreSerializer,
+    ReviewSerializer, TitleSerializer, CreateTitleSerializer
+)
+from .filters import TitleFilter
 
 from reviews.models import Category, Genre, Review, Title
 
@@ -17,6 +22,16 @@ class TitleViewSet(ModelViewSet):
     """ViewSet для работы с произведениями."""
     serializer_class = TitleSerializer
     permission_classes = (IsAdminOrReadOnly, )
+    http_method_names = [
+        'get', 'post', 'patch', 'delete', 'head', 'options', 'trace'
+    ]
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = TitleFilter
+
+    def get_serializer_class(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return TitleSerializer
+        return CreateTitleSerializer
 
     def get_queryset(self):
         return Title.objects.annotate(rating=Avg('reviews__score')).all()
