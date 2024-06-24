@@ -22,6 +22,7 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class CreateTitleSerializer(serializers.ModelSerializer):
+    """Сериализатор для создания Title."""
     category = serializers.SlugRelatedField(
         'slug', queryset=Category.objects.all()
     )
