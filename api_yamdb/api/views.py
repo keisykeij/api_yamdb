@@ -8,7 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .mixins import BaseMixinSet
 from .permissions import IsAdminOrReadOnly
-# from .permissions import IsAuthorOrStuffOrReadOnly
+from .permissions import IsAuthorModeratorAdminOrReadOnly
 from .serializers import (
     CategorySerializer, CommentSerializer, GenreSerializer,
     ReviewSerializer, TitleSerializer, CreateTitleSerializer
@@ -21,7 +21,7 @@ from reviews.models import Category, Genre, Review, Title
 class TitleViewSet(ModelViewSet):
     """ViewSet для работы с произведениями."""
     serializer_class = TitleSerializer
-    permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = (IsAdminOrReadOnly,)
     http_method_names = [
         'get', 'post', 'patch', 'delete', 'head', 'options', 'trace'
     ]
@@ -34,7 +34,10 @@ class TitleViewSet(ModelViewSet):
         return CreateTitleSerializer
 
     def get_queryset(self):
-        return Title.objects.annotate(rating=Avg('reviews__score')).all()
+        return (
+            Title.objects.annotate(rating=Avg('reviews__score'))
+            .order_by('-year')
+        )
 
 
 class CategoryViewSet(BaseMixinSet):
@@ -63,8 +66,18 @@ class GenreViewSet(BaseMixinSet):
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
-    # permission_classes = (IsAuthorOrStuffOrReadOnly,)
+    permission_classes = (IsAuthorModeratorAdminOrReadOnly,)
     pagination_class = PageNumberPagination
+    http_method_names = [
+        'get', 'post', 'patch', 'delete', 'head', 'options', 'trace'
+    ]
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['title'] = get_object_or_404(
+            Title, pk=self.kwargs.get('title_id')
+        )
+        return context
 
     def get_title(self):
         return get_object_or_404(Title, pk=self.kwargs.get('title_id'))
