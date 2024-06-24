@@ -13,7 +13,9 @@ class IsAppAdmin(permissions.BasePermission):
         )
 
 
-class IsAuthorModeratorAdminOrReadOnly(permissions.BasePermission):
+class IsAuthorOrModeratorOrAdminOrReadOnly(permissions.BasePermission):
+    """Доступ к внесению изменений от пользователей с ролями:
+     "Author", "Moderator", "Admin", иначе только чтение."""
     def has_permission(self, request, view):
         return (
             request.method in permissions.SAFE_METHODS

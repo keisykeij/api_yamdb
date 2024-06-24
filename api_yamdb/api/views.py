@@ -1,14 +1,12 @@
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from rest_framework.filters import SearchFilter
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .mixins import BaseMixinSet
+from .mixins import BaseMixinSet, CommmentReviewMixin
 from .permissions import IsAdminOrReadOnly
-from .permissions import IsAuthorModeratorAdminOrReadOnly
 from .serializers import (
     CategorySerializer, CommentSerializer, GenreSerializer,
     ReviewSerializer, TitleSerializer, CreateTitleSerializer
@@ -64,13 +62,9 @@ class GenreViewSet(BaseMixinSet):
         return Genre.objects.all()
 
 
-class ReviewViewSet(ModelViewSet):
+class ReviewViewSet(CommmentReviewMixin):
+    """ViewSet для работы с отзывами."""
     serializer_class = ReviewSerializer
-    permission_classes = (IsAuthorModeratorAdminOrReadOnly,)
-    pagination_class = PageNumberPagination
-    http_method_names = [
-        'get', 'post', 'patch', 'delete', 'head', 'options', 'trace'
-    ]
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -92,13 +86,9 @@ class ReviewViewSet(ModelViewSet):
         )
 
 
-class CommentViewSet(ModelViewSet):
+class CommentViewSet(CommmentReviewMixin):
+    """ViewSet для работы с комментариями."""
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthorModeratorAdminOrReadOnly,)
-    pagination_class = PageNumberPagination
-    http_method_names = [
-        'get', 'post', 'patch', 'delete', 'head', 'options', 'trace'
-    ]
 
     def get_review(self):
         return get_object_or_404(Review, pk=self.kwargs.get('review_id'))
