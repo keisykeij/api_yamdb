@@ -19,6 +19,7 @@ class Title(models.Model):
     class Meta:
         verbose_name = 'Произведение'
         verbose_name_plural = 'Произведения'
+        ordering = ('-year',)
 
     def __str__(self):
         return self.name
@@ -31,6 +32,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        ordering = ('id',)
 
     def __str__(self):
         return self.name
@@ -43,6 +45,7 @@ class Genre(models.Model):
     class Meta:
         verbose_name = 'Жанр'
         verbose_name_plural = 'Жанры'
+        ordering = ('id',)
 
     def __str__(self):
         return self.name
@@ -70,6 +73,7 @@ class Review(models.Model):
                 name='unique_title_author'
             )
         ]
+        ordering = ('pub_date',)
 
     def __str__(self):
         return self.text

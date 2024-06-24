@@ -60,3 +60,7 @@ class CustomUser(AbstractUser):
                 name='Unique auth data constraint'
             ),
         )
+        ordering = ('id',)
+
+    def __str__(self) -> str:
+        return f'{self.username}: {self.role}'

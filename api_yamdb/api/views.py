@@ -21,7 +21,7 @@ from reviews.models import Category, Genre, Review, Title
 class TitleViewSet(ModelViewSet):
     """ViewSet для работы с произведениями."""
     serializer_class = TitleSerializer
-    permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = (IsAdminOrReadOnly,)
     http_method_names = [
         'get', 'post', 'patch', 'delete', 'head', 'options', 'trace'
     ]
@@ -34,7 +34,10 @@ class TitleViewSet(ModelViewSet):
         return CreateTitleSerializer
 
     def get_queryset(self):
-        return Title.objects.annotate(rating=Avg('reviews__score')).all()
+        return (
+            Title.objects.annotate(rating=Avg('reviews__score'))
+            .order_by('-year')
+        )
 
 
 class CategoryViewSet(BaseMixinSet):
