@@ -13,9 +13,11 @@ class IsAppAdmin(permissions.BasePermission):
         )
 
 
+
 class IsAuthorOrModeratorOrAdminOrReadOnly(permissions.BasePermission):
     """Доступ к внесению изменений от пользователей с ролями:
      "Author", "Moderator", "Admin", иначе только чтение."""
+
     def has_permission(self, request, view):
         return (
             request.method in permissions.SAFE_METHODS
@@ -35,6 +37,13 @@ class IsAuthorOrModeratorOrAdminOrReadOnly(permissions.BasePermission):
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):
+    """
+    Правило позволяет доступ только для чтения (GET, HEAD, OPTIONS)
+    для неавторизованных пользователей,
+    а также для авторизованных пользователей,
+    которые имеют роль администратора.
+    """
+
     def has_permission(self, request, view):
         return (
             request.method in permissions.SAFE_METHODS
