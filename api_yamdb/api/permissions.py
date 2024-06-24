@@ -13,7 +13,6 @@ class IsAppAdmin(permissions.BasePermission):
         )
 
 
-
 class IsAuthorOrModeratorOrAdminOrReadOnly(permissions.BasePermission):
     """Доступ к внесению изменений от пользователей с ролями:
      "Author", "Moderator", "Admin", иначе только чтение."""

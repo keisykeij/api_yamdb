@@ -12,6 +12,6 @@ def send_confirmation_code(confirmation_code: str, recipient_mail: str):
             f'Ваш код: {confirmation_code}'
         ),
         from_email='yamdb@yandex.ru',
-        recipient_list=[recipient_mail,],
+        recipient_list=[recipient_mail, ],
         fail_silently=True
     )

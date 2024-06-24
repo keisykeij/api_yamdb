@@ -55,14 +55,24 @@ class Review(models.Model):
     title = models.ForeignKey(
         Title, verbose_name='Название произведения',
         on_delete=models.CASCADE, related_name='reviews')
+
     text = models.TextField('Текст отзыва')
+
     author = models.ForeignKey(
         CustomUser, verbose_name='Username пользователя',
         on_delete=models.CASCADE, related_name='reviews')
-    score = models.IntegerField('Оценка', validators=[
-                                MinValueValidator(1), MaxValueValidator(10),],)
-    pub_date = models.DateTimeField('Дата публикации отзыва',
-                                    auto_now_add=True, db_index=True)
+
+    score = models.IntegerField(
+        'Оценка',
+        validators=[
+            MinValueValidator(1), MaxValueValidator(10)
+        ]
+    )
+    pub_date = models.DateTimeField(
+        'Дата публикации отзыва',
+        auto_now_add=True,
+        db_index=True
+    )
 
     class Meta:
         verbose_name = 'Отзыв'
