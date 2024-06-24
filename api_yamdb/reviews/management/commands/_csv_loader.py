@@ -1,7 +1,7 @@
 import csv
 
+from reviews.models import Category, Comment, Genre, Review, Title
 from users.models import CustomUser
-from reviews.models import Genre, Category, Title, Review, Comment
 
 
 class CSVLoader:
