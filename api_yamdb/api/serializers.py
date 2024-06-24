@@ -56,7 +56,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         default=serializers.CurrentUserDefault()
     )
     title = serializers.PrimaryKeyRelatedField(
-        read_only=True, required=False
+        write_only=True, queryset=Title.objects.all(), required=False
     )
 
     class Meta:
