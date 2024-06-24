@@ -52,7 +52,7 @@ class Genre(models.Model):
 
 
 class Review(models.Model):
-    title = models.ForeignKey(  # TODO нужно проверить
+    title = models.ForeignKey(
         Title, verbose_name='Название произведения',
         on_delete=models.CASCADE, related_name='reviews')
     text = models.TextField('Текст отзыва')
@@ -76,11 +76,11 @@ class Review(models.Model):
         ordering = ('pub_date',)
 
     def __str__(self):
-        return self.text
+        return f'Отзыв к {self.title}'
 
 
 class Comment(models.Model):
-    review = models.ForeignKey(  # TODO нужно проверить
+    review = models.ForeignKey(
         Review, verbose_name='Отзыв',
         on_delete=models.CASCADE, related_name='comments')
     text = models.TextField('Текст комментария')
