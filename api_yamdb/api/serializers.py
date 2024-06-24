@@ -81,6 +81,6 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only=True, slug_field='username')
 
     class Meta:
-        fields = ('id', 'review', 'author', 'text', 'created')
+        fields = ('id', 'text', 'author', 'pub_date')
         model = Comment
         read_only_fields = ('review',)
