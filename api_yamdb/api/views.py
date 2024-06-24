@@ -1,6 +1,5 @@
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import permissions
 from django_filters.rest_framework import DjangoFilterBackend

@@ -1,10 +1,13 @@
 from rest_framework.mixins import (
-  CreateModelMixin, DestroyModelMixin, ListModelMixin)
+    CreateModelMixin, DestroyModelMixin, ListModelMixin
+)
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.filters import SearchFilter
 
-from .permissions import IsAuthorOrModeratorOrAdminOrReadOnly, IsAdminOrReadOnly
+from .permissions import (
+    IsAuthorOrModeratorOrAdminOrReadOnly, IsAdminOrReadOnly
+)
 
 
 class BaseMixinSet(CreateModelMixin, ListModelMixin,
