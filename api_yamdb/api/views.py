@@ -104,7 +104,7 @@ class CommentViewSet(ModelViewSet):
         return get_object_or_404(Review, pk=self.kwargs.get('review_id'))
 
     def get_queryset(self):
-        return self.get_review().comments.all()
+        return self.get_review().comments.all().order_by('pub_date')
 
     def perform_create(self, serializer):
         serializer.save(
