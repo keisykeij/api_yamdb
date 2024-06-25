@@ -64,8 +64,15 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         title = self.context.get('title')
-        author = self.context['request'].user
-        request = self.context['request']
+        request = self.context.get('request', None)
+
+        if not request:
+            raise serializers.ValidationError('Ошибка валидации.')
+
+        author = request.user
+
+        if not author.is_authenticated:
+            raise serializers.ValidationError('Необходима аутентификация.')
 
         if request.method == "POST":
             if Review.objects.filter(title=title, author=author).exists():
